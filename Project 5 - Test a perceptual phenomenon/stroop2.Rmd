@@ -1,0 +1,109 @@
+---
+title: "Stroop Effect - Data Analyst Nanodegree Project"
+author: "Alex Mathew"
+date: "15 October 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Background Information
+
+In a Stroop task, participants are presented with a list of words, with each word displayed in a color of ink. The participant's task is to say out loud the color of the ink in which the word is printed. The task has two conditions: a congruent words condition, and an incongruent words condition. In the congruent words condition, the words being displayed are color words whose names match the colors in which they are printed: for example RED, BLUE. In the incongruent words condition, the words displayed are color words whose names do not match the colors in which they are printed: for example PURPLE, ORANGE. In each case, we measure the time it takes to name the ink colors in equally-sized lists. Each participant will go through and record a time from each condition.
+
+The data has been provided using a csv file.
+
+Now Let us answer the questions required for this project.
+
+## Questions For Investigation
+
+###1. 1. What is our independent variable? What is our dependent variable?
+The independent variables are the conditions ie congruent and incongruent; 
+and the dependent variable is the time it takes to name the ink colors.
+
+###2. What is an appropriate set of hypotheses for this task? What kind of  statistical test do you expect to perform? Justify your choices.
+Hypothesis test
+
+H0: Time taken to name colours is the equal for congruent and incongruent tasks
+
+HA: Time taken to name colours is not equal for congruent and incongruent tasks
+
+In other words:  
+H0: µ1 = µ2   
+HA: µ1 ??? µ2  
+
+The sample size is less than 30 and population standard deviation is not known.  
+
+We will be using a two-tailed paired T-test for the analysis. 
+I will be using a two-tailed dependent T-test because we are comparing two dependent samples of data with same subject involved under both conditions.
+
+###3. Report some descriptive statistics regarding this dataset. Include at least one measure of central tendency and at least one measure of variability.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, packages1}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+library(GGally)
+library(reshape2)
+library(RColorBrewer)
+library(scales)
+
+#stroopdata <-   read_csv("stroopdata.csv")
+
+# Tidying the data
+stroopdata.tidy <- gather(stroopdata, congruency, time)
+
+stroopdata.tidy %>%
+    group_by(congruency) %>%
+    summarise(mean(time), median(time), sd(time), var(time))
+
+```
+Thus, from the table we can see the mean, median , standard deviation and variance values.
+
+###4. Provide one or two visualizations that show the distribution of the \
+sample data. Write one or two sentences noting what you observe about the \
+plot or plots.
+We will be plotting two graphs for our visual understanding 
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, packages2}
+
+library(ggplot2)
+b <- ggplot(stroopdata.tidy, aes(y = time, x = congruency, fill = congruency))
+b + geom_boxplot()
+
+h <- ggplot(stroopdata.tidy, aes(x = time, fill = congruency))
+h + geom_histogram()
+
+```
+
+As we can see from the boxplot, the median of the two groups vary. The incongruent group has a higher median than the congruent section. Incongruent group also has some outliers.  
+The histogram plot also confirms that the incongruent group has a bigger time range, i.e. the incongruent group spend longer time than congruent group.
+
+
+###5. Now, perform the statistical test and report your results. What is your confidence level and your critical statistic value? Do you reject the null hypothesis or fail to reject it? Come to a conclusion in terms of the experiment task. Did the results match up with your expectations?
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, packages3}
+
+t.test(stroopdata$Congruent, stroopdata$Incongruent, alternative = "two.sided", mu = 0, paired = TRUE, conf.level = 0.95)
+```
+The t-test confidence level is 95%. Degree of freedon is 23.
+We get a p value which is less than 0.05. 
+
+Thus, the Null hypothesis rejected. At alpha 0.05, the time to name colours is significantly different between congruent and incongruent tasks. People are not able to name colours with the same speed when the word's meaning and its colour dont match, as when they do match. The result confirms my expectations as even 
+I found difficulty in the incongruent case.
+
+###6. Optional: What do you think is responsible for the effects observed? Can you think of an alternative or similar task that would result in a similar effect? Some research about the problem will be helpful for thinking about these two questions!
+
+Wikipedia gives us some interesting insight into this problem. There are several theories used to explain the Stroop effect and are commonly known as 'race models'. This is based on the underlying notion that both relevant and irrelevant information are processed in parallel, but "race" to enter the single central processor during response selection. These include processing speed, selective attention, automacity etc.
+
+The Stroop test has additionally been modified to include other sensory modalities and variables, to study the effect of bilingualism, or to investigate the effect of emotions on interference. Ex warped test
+
+> Used Link
+https://stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html   
+http://www.stat.columbia.edu/~martin/W2024/R2.pdf
