@@ -19,4 +19,4 @@ This repository contains project work for Udacity's [Data Analyst Nanodegree](ht
 * Data Visualization with Tableau
 
 ![Udacity Data Analyst Nanodegree certificate](dand_certificate.pdf)
-[embed]dand_certificate.pdf[/embed]
+[embed]https://github.com/alexmathew95/Data-Analyst-Nanodegree/blob/master/dand-certificate.pdf[/embed]
