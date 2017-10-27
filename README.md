@@ -18,4 +18,6 @@ This repository contains project work for Udacity's [Data Analyst Nanodegree](ht
 * Intro to Machine Learning
 * Data Visualization with Tableau
 
-![Udacity Data Analyst Nanodegree certificate](dand_certificate.pdf)
+### Certificate of Completion
+
+![dand_certificate](dand_certificate.png)
